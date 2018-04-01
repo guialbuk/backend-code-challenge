@@ -16,6 +16,7 @@ gem 'puma', '~> 3.7'
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.7.2'
+  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers', branch: 'master'
 end
 
 group :development do
