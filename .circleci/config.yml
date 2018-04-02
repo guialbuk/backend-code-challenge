@@ -3,6 +3,10 @@ jobs:
   build:
     docker:
        - image: circleci/ruby:2.5.1-node-browsers
+         environment:
+           RAILS_ENV: test
+           PGHOST: 127.0.0.1
+           PGUSER: postgres
 
        - image: circleci/postgres:10.1
 
@@ -27,6 +31,16 @@ jobs:
           paths:
             - ./vendor/bundle
           key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+
+      - run:
+          name: Install Dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+
+      - run:
+          name: Wait for PostgreSQL to start
+          command: dockerize -wait tcp://127.0.0.1:5432 -timeout 2m
 
       # Database setup
       - run: bundle exec rake db:create
