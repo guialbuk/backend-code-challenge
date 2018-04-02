@@ -13,8 +13,12 @@ gem 'pg', '~> 1.0.0'
 
 gem 'puma', '~> 3.7'
 
-group :development, :test do # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'rspec-rails', '~> 3.7.2'
+  gem 'rspec_junit_formatter', '~> 0.3'
+  gem 'shoulda-matchers', github: 'thoughtbot/shoulda-matchers', branch: 'master'
+  gem 'factory_bot', '~> 4.8.2'
 end
 
 group :development do
@@ -23,6 +27,10 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'rubocop', '~> 0.54.0', require: false
   gem 'brakeman', '~> 4.2.1', require: false
+end
+
+group :test do
+  gem 'database_cleaner', '~> 1.6.2'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
