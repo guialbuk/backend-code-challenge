@@ -11,6 +11,13 @@ class Distance < ApplicationRecord
   validate :origin_not_equal_to_destination
   validate :sorted_origing_and_destination
 
+  def parse_raw_post(payload)
+    raw_distance = payload.split
+    self.length = raw_distance.pop
+    self.origin, self.destination = raw_distance.sort
+    self
+  end
+
   private
 
   def origin_not_equal_to_destination
