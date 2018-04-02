@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20180402143141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "distances", force: :cascade do |t|
+    t.string "origin"
+    t.string "destination"
+    t.integer "length"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["destination"], name: "index_distances_on_destination"
+    t.index ["origin"], name: "index_distances_on_origin"
+  end
 
 end
