@@ -38,6 +38,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.before(:suite) do
+    FactoryBot.find_definitions
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
