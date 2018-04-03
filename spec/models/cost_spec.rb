@@ -23,8 +23,18 @@ describe Cost do
     expect(build :cost, origin: 'A', destination: 'A').to be_invalid
   end
 
-  it 'calculates shipping cost' do
-    expect(build(:cost, weight: 10).calculate).to eq '75.00'
+  context 'calculates shipping cost' do
+    it 'valid route' do
+      allow_any_instance_of(ShortestDistanceService).to receive(:calculate).and_return(99)
+
+      expect(build(:cost, weight: 10).calculate_shipping).to eq '148.50'
+    end
+
+    it 'invalid route' do
+      allow_any_instance_of(ShortestDistanceService).to receive(:calculate).and_return(nil)
+
+      expect(build(:cost).calculate_shipping).to eq nil
+    end
   end
 
   it 'has a valid factory' do

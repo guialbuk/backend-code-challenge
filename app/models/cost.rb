@@ -23,8 +23,9 @@ class Cost
     @weight = params[:weight]
   end
 
-  def calculate
-    format('%.2f', 50 * weight.to_i * 0.15) # TODO
+  def calculate_shipping
+    distance = ShortestDistanceService.new(origin, destination).calculate
+    distance ? format('%.2f', distance * weight.to_i * 0.15) : nil
   end
 
   private

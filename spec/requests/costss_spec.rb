@@ -3,7 +3,10 @@ require 'rails_helper'
 describe 'GET /cost' do
   context 'retrieve shipping cost'
   it 'with valid data' do
-    get cost_path, params: attributes_for(:cost, weight: 5)
+    seed_minimal_distances
+    allow_any_instance_of(ShortestDistanceService).to receive(:calculate).and_return(50)
+
+    get cost_path, params: attributes_for(:cost, origin: 'A', destination: 'C', weight: 5)
 
     expect(response).to have_http_status :ok
     expect(response.body).to eq '37.50'
