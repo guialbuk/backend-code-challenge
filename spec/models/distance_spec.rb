@@ -26,6 +26,24 @@ describe Distance do
     expect(build :distance, origin: 'Z', destination: 'A').to be_invalid
   end
 
+  it 'creates a new record if no matching record is found' do
+    create :distance, origin: 'A', destination: 'Z'
+
+    expect do
+      Distance.new(origin: 'B', destination: 'Z', length: 10).update_or_create
+    end.to change { Distance.count }.by 1
+  end
+
+  it 'updates record if a matching record is found' do
+    create :distance, origin: 'A', destination: 'Z', length: 9
+
+    expect do
+      Distance.new(origin: 'A', destination: 'Z', length: 10).update_or_create
+    end.to_not change { Distance.count }
+
+    expect(Distance.last.length).to eq 10
+  end
+
   it 'has a valid factory' do
     expect(build :distance).to be_valid
   end
