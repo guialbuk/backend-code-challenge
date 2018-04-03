@@ -7,7 +7,8 @@ class ShortestDistanceService
   def calculate
     # Prevents exhaustive search for non-existing origin or destination
     return nil unless location_exists?(@origin) && location_exists?(@destination)
-    99 # TODO
+
+    DijkstraService.new(@origin, @destination).shortest_distance
   end
 
   private

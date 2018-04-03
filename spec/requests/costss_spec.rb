@@ -4,15 +4,24 @@ describe 'GET /cost' do
   context 'retrieve shipping cost'
   it 'with valid data' do
     seed_minimal_distances
-    allow_any_instance_of(ShortestDistanceService).to receive(:calculate).and_return(50)
 
     get cost_path, params: attributes_for(:cost, origin: 'A', destination: 'C', weight: 5)
 
     expect(response).to have_http_status :ok
-    expect(response.body).to eq '37.50'
+    expect(response.body).to eq '18.75'
   end
 
-  context 'does not create Distance' do
+  context 'does not retrieve shipping cost' do
+    it 'when no route connects origin and destination' do
+      seed_minimal_distances
+      create :distance, origin: 'D', destination: 'E'
+
+      get cost_path, params: attributes_for(:cost, origin: 'A', destination: 'D', weight: 5)
+
+      expect(response).to have_http_status :unprocessable_entity
+      expect(response.body).to eq "Error\nNo valid route between A and D"
+    end
+
     it 'with invalid origin, distance and length' do
       expect do
         get cost_path, params: attributes_for(:cost, origin: 'a', destination: 'z', weight: 0)

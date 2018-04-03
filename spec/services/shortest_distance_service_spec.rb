@@ -7,7 +7,7 @@ describe ShortestDistanceService do
 
   it 'returns shortest distance' do
     seed_minimal_distances
-    allow_any_instance_of(ShortestDistanceService).to receive(:calculate).and_return(50)
+    allow_any_instance_of(DijkstraService).to receive(:shortest_distance).and_return(50)
 
     expect(ShortestDistanceService.new('A', 'B').calculate).to eq 50
   end
