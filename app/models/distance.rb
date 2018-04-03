@@ -12,6 +12,12 @@ class Distance < ApplicationRecord
   validate :origin_not_equal_to_destination
   validate :sorted_origing_and_destination
 
+  def update_or_create
+    record = Distance.where('origin = ? AND destination = ?', origin, destination).limit(1)
+
+    record.any? ? record.update(length: length) : save
+  end
+
   def parse_raw_post(payload)
     return self unless raw_post_format payload
 

@@ -2,7 +2,7 @@ class DistancesController < ApplicationController
   def create
     @distance = Distance.new.parse_raw_post(request.raw_post)
 
-    if @distance.errors.empty? && @distance.save
+    if @distance.errors.empty? && @distance.update_or_create
       render plain: 'OK',
              status: :ok
     else

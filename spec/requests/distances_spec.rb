@@ -1,30 +1,63 @@
 require 'rails_helper'
 
 describe 'POST /distance' do
-  context 'creates Distance'
-  it 'with valid data' do
-    expect do
-      post distance_path, params: 'AA BB 10'
-    end.to change { Distance.count }.by 1
+  context 'creates a new Distance distance' do
+    it 'with valid data - sorted' do
+      expect do
+        post distance_path, params: 'AA BB 10'
+      end.to change { Distance.count }.by 1
 
-    expect(response).to have_http_status :ok
-    expect(response.body).to eq 'OK'
+      expect(response).to have_http_status :ok
+      expect(response.body).to eq 'OK'
+    end
+
+    it 'with valid data - not sorted' do
+      expect do
+        post distance_path, params: 'B A 10'
+      end.to change { Distance.count }.by 1
+
+      expect(response).to have_http_status :ok
+      expect(response.body).to eq 'OK'
+
+      record = Distance.last
+      expect(record.origin).to eq 'A'
+      expect(record.destination).to eq 'B'
+    end
   end
 
-  it 'with valid data - not sorted' do
-    expect do
-      post distance_path, params: 'B A 10'
-    end.to change { Distance.count }.by 1
+  context 'updates an existing Distance distance' do
+    it 'with valid data - sorted' do
+      create :distance, origin: 'AA', destination: 'BB', length: 5
 
-    expect(response).to have_http_status :ok
-    expect(response.body).to eq 'OK'
+      expect do
+        post distance_path, params: 'AA BB 10'
+      end.to_not change { Distance.count }
 
-    record = Distance.last
-    expect(record.origin).to eq 'A'
-    expect(record.destination).to eq 'B'
+      expect(Distance.last.length).to eq 10
+
+      expect(response).to have_http_status :ok
+      expect(response.body).to eq 'OK'
+    end
+
+    it 'with valid data - not sorted' do
+      create :distance, origin: 'A', destination: 'B', length: 5
+
+      expect do
+        post distance_path, params: 'B A 10'
+      end.to_not change { Distance.count }
+
+      expect(Distance.last.length).to eq 10
+
+      expect(response).to have_http_status :ok
+      expect(response.body).to eq 'OK'
+
+      record = Distance.last
+      expect(record.origin).to eq 'A'
+      expect(record.destination).to eq 'B'
+    end
   end
 
-  context 'does not create Distance' do
+  context 'does not save Distance' do
     it 'with invalid origin, distance and length' do
       expect do
         post distance_path, params: 'a z 0'
