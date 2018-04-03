@@ -3,6 +3,7 @@ AllCops:
   Exclude:
     - bin/**/*
     - db/**/*
+    - app/services/dijkstra/graph.rb
 
 Rails:
   Enabled: true
