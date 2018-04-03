@@ -1,7 +1,11 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+distances = []
+
+('A'..'Z').each do |origin|
+  (origin..'Z').to_a[1..-1].each do |destination|
+    distances.push(origin: origin,
+                   destination: destination,
+                   length: rand(5..10))
+  end
+end
+
+Distance.create distances
