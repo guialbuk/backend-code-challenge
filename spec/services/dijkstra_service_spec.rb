@@ -7,8 +7,8 @@ describe DijkstraService do
     expect(DijkstraService.new('A', 'C').shortest_distance).to eq 25
   end
 
-  it 'returns shortest distance in 1000 edges' do
-    seed_thousand_distances
+  it 'returns shortest distance in 300 edges' do
+    seed_300_distances
 
     expect(DijkstraService.new('A', 'Z').shortest_distance).to be_kind_of Integer
   end

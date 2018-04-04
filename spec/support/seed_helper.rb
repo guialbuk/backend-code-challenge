@@ -5,7 +5,7 @@ module SeedHelper
                      { origin: 'A', destination: 'C', length: 30 }]
   end
 
-  def seed_thousand_distances
+  def seed_300_distances
     distances = []
 
     ('A'..'Z').each do |origin|

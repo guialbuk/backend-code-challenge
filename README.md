@@ -1,5 +1,44 @@
-Ruby/Elixir Engineer Coding Challenge
+Ruby/Elixir Engineer Coding Challenge - Gui Vieira's entry
 =======================
+
+### CircleCI [![CircleCI](https://circleci.com/gh/guialbuk/backend-code-challenge.svg?style=svg)](https://circleci.com/gh/guialbuk/backend-code-challenge)
+
+## Concepts
+
+- My concept is to create a lean Ruby on Rails API app using TDD
+
+- A Ruby implementation of [Dijkstra's algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm), with a couple of minor tweaks, was chosen to calculate the shortest distance route between `origin` and `destination`
+
+- In case of invalid requests, the app will send descriptive error messages in order to assist the user
+
+## Considerations
+
+- `origin` and `destination` attributes must contain only uppercase letters. Numbers, accents and special characters are invalid
+
+- The application assumes that distances/routes are bidirectional, i.e. distance from A to B == distance from B to A
+
+
+## Requirements
+- Ruby 2.5.1
+- Rails 5.1.6
+- PostgreSQL 9 or 10
+
+## How to run
+
+````
+git clone https://github.com/guialbuk/backend-code-challenge.git
+cd backend-code-challenge
+rails db:create db:migrate db:seed
+rails s
+````
+
+Tests:
+```
+rspec
+open coverage/index.html # opens code coverage report
+````
+
+## Original challenge README
 
 Hello!
 
